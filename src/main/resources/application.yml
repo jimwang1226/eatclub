@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: eatclub
+
+webclient:
+  data:
+    url: "https://eccdn.com.au/misc/challengedata.json"
+    refresh-interval: 5s
+    connect-timeout: 2s
+    read-timeout: 4s
