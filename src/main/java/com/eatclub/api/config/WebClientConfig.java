@@ -16,8 +16,7 @@ public class WebClientConfig {
 
     /**
      * Create a webclient bean for DAO to fetch data
-     * @param properties
-     * @return
+     * @param properties the WebClientProperties class
      */
     @Bean
     public WebClient webClient(WebClientProperties properties) {
