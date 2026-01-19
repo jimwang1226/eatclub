@@ -76,4 +76,18 @@ public class TimeUtils {
             return LocalTime.parse(validTime, DT_FORMAT_24H);
         }
     }
+
+    /**
+     * Parse an integer to LocalTime
+     * @param time in integer, should between 0~1439
+     * @return String, like 12:30pm
+     */
+    public static String parseTime(int time) {
+        if (time < 0 || time > 1439) {
+            throw new IllegalArgumentException("Invalid integer, must be between 0 and 1439");
+        }
+        int hour = time / 60;
+        int minute = time % 60;
+        return LocalTime.of(hour, minute).format(DT_FORMAT_12H).toLowerCase();
+    }
 }
