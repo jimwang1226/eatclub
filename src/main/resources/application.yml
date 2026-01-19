@@ -8,6 +8,6 @@ spring:
 webclient:
   data:
     url: "https://eccdn.com.au/misc/challengedata.json"
-    refresh-interval: 5s
+    refresh-interval: 15s
     connect-timeout: 2s
     read-timeout: 4s

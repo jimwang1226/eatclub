@@ -80,7 +80,7 @@ public class DealDaoImpl implements IDealDao {
             log.info("Successfully refreshed data, loaded {} restaurants", restaurants.size());
 
         } catch (Exception e) {
-            // Keep last good snapshot (production-friendly behavior)
+            // Keep last good snapshot
             log.error("Failed to refresh data from API, keeping last snapshot. Error: {}", e.getMessage(), e);
         }
     }
