@@ -8,6 +8,8 @@ import com.eatclub.api.service.IPeakTimeService;
 import com.eatclub.api.util.DealUtils;
 import com.eatclub.api.util.TimeUtils;
 import com.eatclub.api.util.TimeWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class PeakTimeServiceImpl implements IPeakTimeService {
 
+    private static final Logger log = LoggerFactory.getLogger(PeakTimeServiceImpl.class);
+
     private final IDealDao dealDao;
 
     public PeakTimeServiceImpl(IDealDao dealDao) {
@@ -27,6 +31,7 @@ public class PeakTimeServiceImpl implements IPeakTimeService {
 
     @Override
     public PeakTimeResponse calculatePeakTime() {
+        log.debug("Starting peak time calculation");
         // 1) Get all the active deals
         List<Restaurant> restaurants = dealDao.getRestaurants();
         // This array indicates in every minute of the day, the change of the deal's number.
@@ -68,7 +73,10 @@ public class PeakTimeServiceImpl implements IPeakTimeService {
         }
 
         // 2.2) If the max deal number is 0, means no available deal, return an empty response.
-        if (maxDealNo == 0) return new PeakTimeResponse();
+        if (maxDealNo == 0) {
+            log.debug("No active deals found, returning empty peak time response");
+            return new PeakTimeResponse();
+        }
 
         // 2.3) Use the max deal number to calculate the peak start time and end time.
         currentDealNo = 0;
@@ -87,6 +95,8 @@ public class PeakTimeServiceImpl implements IPeakTimeService {
         }
 
         // 4) Wrap in PeakTimeResponse and return.
+        log.debug("Peak time calculated: {} - {} with {} max concurrent deals",
+                TimeUtils.parseTime(startMinute), TimeUtils.parseTime(endMinute), maxDealNo);
         return new PeakTimeResponse(TimeUtils.parseTime(startMinute), TimeUtils.parseTime(endMinute));
     }
 

@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleOther(Exception e) {
-//        e.printStackTrace();
+        log.error("Unhandled exception occurred: {}", e.getMessage(), e);
         return new ApiError("INTERNAL_ERROR", "Something went wrong.");
     }
 }

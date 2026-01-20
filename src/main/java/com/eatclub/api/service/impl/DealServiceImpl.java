@@ -7,6 +7,8 @@ import com.eatclub.api.model.domain.Deal;
 import com.eatclub.api.model.domain.Restaurant;
 import com.eatclub.api.service.IDealService;
 import com.eatclub.api.util.DealUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -21,6 +23,8 @@ import static com.eatclub.api.util.TimeUtils.parseTime;
 @Service
 public class DealServiceImpl implements IDealService {
 
+    private static final Logger log = LoggerFactory.getLogger(DealServiceImpl.class);
+
     private final IDealDao dealDao;
 
     public DealServiceImpl(IDealDao dealDao) {
@@ -34,6 +38,7 @@ public class DealServiceImpl implements IDealService {
      */
     @Override
     public DealResponse queryActiveDealsByTime(String time) {
+        log.debug("Querying active deals for time: {}", time);
 
         // 1) Time format check, and parse to local time.
         LocalTime queryTime = parseTime(time);
@@ -60,6 +65,7 @@ public class DealServiceImpl implements IDealService {
         }
 
         // 4) Wrap in DealResponse and return.
+        log.debug("Found {} active deals for time: {}", result.size(), time);
         return new DealResponse(result);
     }
 
